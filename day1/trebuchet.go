@@ -6,6 +6,7 @@ import (
 	"os"
 	"regexp"
 	"strconv"
+	"sync"
 )
 
 func Trebuchet(file string) int {
@@ -55,9 +56,12 @@ func extractCombinedFirstAndLastDigitFromFile(filePath string) ([]int, error) {
 		}
 	}(file)
 
-	var allPairs []int
-	scanner := bufio.NewScanner(file)
+	var (
+		allPairs []int
+		mu       sync.Mutex
+	)
 
+	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
 		combined, err := extractCombinedFirstAndLastDigit(line)
@@ -67,7 +71,9 @@ func extractCombinedFirstAndLastDigitFromFile(filePath string) ([]int, error) {
 			continue
 		}
 
+		mu.Lock()
 		allPairs = append(allPairs, combined)
+		mu.Unlock()
 	}
 
 	if err := scanner.Err(); err != nil {
