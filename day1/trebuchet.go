@@ -4,50 +4,14 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"regexp"
 	"strconv"
-	"sync"
+	"strings"
 )
 
-func Trebuchet(file string) int {
-	numbers, _ := extractCombinedFirstAndLastDigitFromFile(file)
-
-	totalSum := sumOfDigits(numbers)
-
-	return totalSum
-}
-
-func extractCombinedFirstAndLastDigit(input string) (int, error) {
-	re := regexp.MustCompile(`\d`)
-	matches := re.FindAllString(input, -1)
-
-	if len(matches) == 0 {
-		return 0, fmt.Errorf("no digits found in line: %s", input)
-	}
-
-	if len(matches) == 1 {
-		digit, err := strconv.Atoi(matches[0])
-		if err != nil {
-			return 0, fmt.Errorf("error converting to integer: %v", err)
-		}
-		return digit*10 + digit, nil
-	}
-
-	firstDigit, err1 := strconv.Atoi(matches[0])
-	lastDigit, err2 := strconv.Atoi(matches[len(matches)-1])
-
-	if err1 != nil || err2 != nil {
-		return 0, fmt.Errorf("error converting to integer: %v %v", err1, err2)
-	}
-
-	combined := firstDigit*10 + lastDigit
-	return combined, nil
-}
-
-func extractCombinedFirstAndLastDigitFromFile(filePath string) ([]int, error) {
+func Trebuchet(filePath string) (int, int, error) {
 	file, err := os.Open(filePath)
 	if err != nil {
-		return nil, err
+		return 0, 0, fmt.Errorf("error opening file: %v", err)
 	}
 	defer func(file *os.File) {
 		err := file.Close()
@@ -56,37 +20,41 @@ func extractCombinedFirstAndLastDigitFromFile(filePath string) ([]int, error) {
 		}
 	}(file)
 
-	var (
-		allPairs []int
-		mu       sync.Mutex
-	)
-
 	scanner := bufio.NewScanner(file)
+
+	p1 := 0
+	p2 := 0
+
 	for scanner.Scan() {
 		line := scanner.Text()
-		combined, err := extractCombinedFirstAndLastDigit(line)
 
-		if err != nil {
-			fmt.Println("Error extracting digits:", err)
-			continue
+		p1Digits := make([]rune, 0)
+		p2Digits := make([]rune, 0)
+
+		for i, c := range line {
+			if c >= '0' && c <= '9' {
+				p1Digits = append(p1Digits, c)
+				p2Digits = append(p2Digits, c)
+			}
+
+			digits := []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
+			for d, val := range digits {
+				if strings.HasPrefix(line[i:], val) {
+					p2Digits = append(p2Digits, []rune(strconv.Itoa(d+1))...)
+				}
+			}
 		}
 
-		mu.Lock()
-		allPairs = append(allPairs, combined)
-		mu.Unlock()
+		if len(p1Digits) > 0 {
+			p1Int, _ := strconv.Atoi(string(p1Digits[0]) + string(p1Digits[len(p1Digits)-1]))
+			p1 += p1Int
+		}
+
+		if len(p2Digits) > 0 {
+			p2Int, _ := strconv.Atoi(string(p2Digits[0]) + string(p2Digits[len(p2Digits)-1]))
+			p2 += p2Int
+		}
 	}
 
-	if err := scanner.Err(); err != nil {
-		return nil, err
-	}
-
-	return allPairs, nil
-}
-
-func sumOfDigits(numbers []int) int {
-	result := 0
-	for _, num := range numbers {
-		result += num
-	}
-	return result
+	return p1, p2, nil
 }

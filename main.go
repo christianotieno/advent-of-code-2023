@@ -6,6 +6,9 @@ import (
 )
 
 func main() {
-	sum := day1.Trebuchet("day1/calibrationDocument.txt")
-	fmt.Println("Total sum of digit sums:", sum)
+	p1, p2, err := day1.Trebuchet("day1/calibrationDocument.txt")
+	if err != nil {
+		return
+	}
+	fmt.Printf("%d %d", p1, p2)
 }
