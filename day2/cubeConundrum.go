@@ -35,8 +35,8 @@ func CubeConundrum(filepath string) (int, int, error) {
 		V := make(map[string]int)
 
 		for _, event := range strings.Split(line, ";") {
-			for _, balls := range strings.Split(event, ",") {
-				fields := strings.Fields(balls)
+			for _, balls := range strings.Split(event, ",") { // [[3 blue]....]
+				fields := strings.Fields(balls) // [[3] [blue].....]
 				n, color := fields[0], fields[1]
 				nInt, _ := strconv.Atoi(n)
 

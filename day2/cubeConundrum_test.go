@@ -5,7 +5,7 @@ import (
 )
 
 func TestCubeConundrum(t *testing.T) {
-	testFilePath := "puzzleInputTestFile.txt"
+	testFilePath := "cubeConundrumTestFile.txt"
 
 	p1, p2, err := CubeConundrum(testFilePath)
 	if err != nil {

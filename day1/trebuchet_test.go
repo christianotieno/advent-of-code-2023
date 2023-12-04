@@ -7,7 +7,7 @@ import (
 
 func TestTrebuchet(t *testing.T) {
 	t.Run("Scenario 1", func(t *testing.T) {
-		tempFile, err := os.CreateTemp("", "testFile1.txt")
+		tempFile, err := os.CreateTemp("", "trebuchetTestFile1.txt")
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -46,7 +46,7 @@ func TestTrebuchet(t *testing.T) {
 	})
 
 	t.Run("Scenario 2", func(t *testing.T) {
-		tempFile, err := os.CreateTemp("", "testFile2.txt")
+		tempFile, err := os.CreateTemp("", "trebuchetTestFile2.txt")
 		if err != nil {
 			t.Fatal(err)
 		}
