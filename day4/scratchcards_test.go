@@ -5,10 +5,16 @@ import (
 )
 
 func TestScratchCards(t *testing.T) {
-	got := ScratchCards("scratchcards.txt")
-	expect := 13
+	totalCards, totalPoints := ScratchCards("scratchcardsTestFile.txt")
+	expectedTotalPoints := 13
+	expectedTotalCards := 30
 
-	if got != expect {
-		t.Errorf("Expected %d, got %d", expect, got)
+	if totalPoints != expectedTotalPoints {
+		t.Errorf("Expected %d, got %d", expectedTotalPoints, totalPoints)
+	}
+
+	if totalCards != expectedTotalCards {
+		t.Errorf("Expected %d, got %d", expectedTotalCards, totalCards)
+
 	}
 }

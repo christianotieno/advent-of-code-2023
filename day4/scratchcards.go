@@ -8,11 +8,11 @@ import (
 	"strings"
 )
 
-func ScratchCards(filepath string) int {
+func ScratchCards(filepath string) (int, int) {
 	file, err := os.Open(filepath)
 	if err != nil {
-		_ = fmt.Errorf("error opening file: %v+", err)
-		return 0
+		_ = fmt.Errorf("error opening file: %v", err)
+		return 0, 0
 	}
 
 	defer func(file *os.File) {
@@ -24,67 +24,64 @@ func ScratchCards(filepath string) int {
 
 	scanner := bufio.NewScanner(file)
 	totalPoints := 0
+	scratchCards := make(map[int]int)
 
+	i := 0
 	for scanner.Scan() {
+		scratchCards[i]++
 		line := scanner.Text()
 		parts := strings.Split(line, "|")
-		if len(parts) != 2 {
-			fmt.Printf("Invalid line format: %s\n", line)
-			continue
+		leftPart, rightPart := parts[0], parts[1]
+		idCard := strings.Split(leftPart, ":")
+		card := idCard[1]
+		cardNumbers := parseIntArray(card)
+		rightNumbers := parseIntArray(rightPart)
+		points := countIntersection(cardNumbers, rightNumbers)
+
+		if points > 0 {
+			totalPoints += 1 << (points - 1)
 		}
-
-		leftPart := strings.Split(parts[0], ":")
-
-		leftNumbers := extractNumbers(leftPart[1])
-		rightNumbers := extractNumbers(parts[1])
-
-		points := calculatePoints(leftNumbers, rightNumbers)
-		totalPoints += points
+		for j := 0; j < points; j++ {
+			scratchCards[i+1+j] += scratchCards[i]
+		}
+		i++
 	}
 
-	fmt.Printf("Total Points: %d\n", totalPoints)
-	return totalPoints
+	return sumMapValues(scratchCards), totalPoints
 }
 
-func extractNumbers(s string) []int {
-	numStr := strings.Fields(strings.TrimSpace(s))
-	numbers := make([]int, len(numStr))
-
-	for i, str := range numStr {
-		num, err := strconv.Atoi(str)
-		if err != nil {
-			fmt.Printf("Error converting %s to integer: %v\n", str, err)
-			continue
+func parseIntArray(s string) []int {
+	var result []int
+	nums := strings.Fields(s)
+	for _, numStr := range nums {
+		num, err := strconv.Atoi(numStr)
+		if err == nil {
+			result = append(result, num)
 		}
-		numbers[i] = num
 	}
-
-	return numbers
+	return result
 }
 
-func calculatePoints(leftNumbers, rightNumbers []int) int {
-	points := 0
-	matched := make(map[int]bool)
+func countIntersection(a, b []int) int {
+	setA := make(map[int]bool)
+	for _, x := range a {
+		setA[x] = true
+	}
 
-	for _, num := range rightNumbers {
-		if contains(leftNumbers, num) && !matched[num] {
-			points++
-			matched[num] = true
+	intersectionCount := 0
+	for _, y := range b {
+		if setA[y] {
+			intersectionCount++
 		}
 	}
 
-	if points > 1 {
-		points = 2 << (points - 2)
-	}
-
-	return points
+	return intersectionCount
 }
 
-func contains(numbers []int, target int) bool {
-	for _, num := range numbers {
-		if num == target {
-			return true
-		}
+func sumMapValues(m map[int]int) int {
+	sum := 0
+	for _, v := range m {
+		sum += v
 	}
-	return false
+	return sum
 }
