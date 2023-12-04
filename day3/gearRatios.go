@@ -73,6 +73,16 @@ func GearRatios(filename string) (int, int) {
 				gears = make(map[[2]int]struct{})
 			}
 		}
+
+		// Add the gear ratios for the last part number if needed
+		if n > 0 {
+			for gear := range gears {
+				nums[gear] = append(nums[gear], n)
+			}
+			if hasPart {
+				p1 += n
+			}
+		}
 	}
 
 	p2 := 0
