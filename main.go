@@ -4,6 +4,7 @@ import (
 	"adventOfCode2023/day1"
 	"adventOfCode2023/day2"
 	"adventOfCode2023/day3"
+	"adventOfCode2023/day5"
 	"fmt"
 )
 
@@ -25,4 +26,8 @@ func main() {
 		return
 	}
 	fmt.Printf("Gear Ratios: %d %d\n", p1, p2)
+
+	p1, p2 = day5.SeedFertilizer("day5/seedFertilizerTestFile.txt")
+
+	fmt.Printf("SeedFertilizer: %d %d \n", p1, p2)
 }
