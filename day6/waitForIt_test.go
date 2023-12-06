@@ -10,3 +10,12 @@ func TestWaitForIt(t *testing.T) {
 		t.Errorf("Expected: %d, got: %d", expected, got)
 	}
 }
+
+func TestRunBinarySearch(t *testing.T) {
+	got := RunBinarySearch("waitForIt.txt")
+	expected := 503424
+
+	if expected != got {
+		t.Errorf("Expected: %d, got: %d", expected, got)
+	}
+}
