@@ -4,6 +4,7 @@ package day1
 // day1.go: part two https://adventofcode.com/2024/day/1#part2
 
 import (
+	"adventofcode2024/utils"
 	"sort"
 	"strconv"
 	"strings"
@@ -40,7 +41,7 @@ func PartOne(input string) (int, error) {
     
     totalDistance := 0
     for i := 0; i < len(leftList); i++ {
-        distance := abs(leftList[i] - rightList[i])
+        distance := utils.Abs(leftList[i] - rightList[i])
         totalDistance += distance
     }
     
@@ -84,11 +85,4 @@ func PartTwo(input string) (int, error) {
     }
     
     return similarityScore, nil
-}
-
-func abs(x int) int {
-    if x < 0 {
-        return -x
-    }
-    return x
 }

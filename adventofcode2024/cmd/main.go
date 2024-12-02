@@ -10,6 +10,7 @@ import (
 	"strconv"
 
 	"adventofcode2024/internal/day1"
+	"adventofcode2024/internal/day2"
 )
 
 func fetchInput(day int) (string, error) {
@@ -84,6 +85,12 @@ func runDay(day int) error {
 			return fmt.Errorf("day 1 part 2 failed: %v", err)
 		}
 		fmt.Printf("Day 1 Part 2 Result: %d\n", result2)
+	case 2:
+		result1, err := day2.PartOne(input)
+		if err != nil {
+			return fmt.Errorf("day 2 part 1 failed: %v", err)
+		}
+		fmt.Printf("Day 2 Part 1 Result: %d\n", result1)
 	default:
 		return fmt.Errorf("day %d not implemented yet", day)
 	}
