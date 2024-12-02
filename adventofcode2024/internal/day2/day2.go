@@ -1,6 +1,7 @@
 package day2
 
 // day2.go: part one https://adventofcode.com/2024/day/2
+// day2.go: part two https://adventofcode.com/2024/day/2#part2
 import (
 	"strconv"
 	"strings"
