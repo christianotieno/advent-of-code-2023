@@ -71,16 +71,24 @@ func runDay(day int) error {
 
 	switch day {
 	case 1:
-		result, err := day1.CalculateDistance(input)
+		// Part One
+		result1, err := day1.PartOne(input)
 		if err != nil {
-			return fmt.Errorf("day 1 failed: %v", err)
+			return fmt.Errorf("day 1 part 1 failed: %v", err)
 		}
-		fmt.Printf("Day 1 Result: %d\n", result)
+		fmt.Printf("Day 1 Part 1 Result: %d\n", result1)
+
+		// Part Two
+		result2, err := day1.PartTwo(input)
+		if err != nil {
+			return fmt.Errorf("day 1 part 2 failed: %v", err)
+		}
+		fmt.Printf("Day 1 Part 2 Result: %d\n", result2)
 	default:
 		return fmt.Errorf("day %d not implemented yet", day)
 	}
 
-    return nil
+	return nil
 }
 
 func main() {
