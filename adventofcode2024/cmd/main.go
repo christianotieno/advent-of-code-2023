@@ -107,6 +107,14 @@ func runDay(day int) error {
 			return fmt.Errorf("day 3 part 1 failed: %v", err)
 		}
 		fmt.Printf("Day 3 Part 1 Result: %d\n", result1)
+
+		// Part Two
+		result2, err := day3.PartTwo(input)
+		if err != nil {
+			return fmt.Errorf("day 3 part 2 failed: %v", err)
+		}
+		fmt.Printf("Day 3 Part 2 Result: %d\n", result2)
+
 	default:
 		return fmt.Errorf("day %d not implemented yet", day)
 	}
