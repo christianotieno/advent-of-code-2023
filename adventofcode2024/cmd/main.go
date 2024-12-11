@@ -17,6 +17,7 @@ import (
 	"adventofcode2024/internal/day5"
 	"adventofcode2024/internal/day6"
 	"adventofcode2024/internal/day7"
+	"adventofcode2024/internal/day8"
 )
 
 func fetchInput(day int) (string, error) {
@@ -139,6 +140,13 @@ func runDay(day int) error {
 			return err
 		}
 		if err := runPart(7, 2, day7.PartTwo, input); err != nil {
+			return err
+		}
+	case 8:
+		if err := runPart(8, 1, day8.PartOne, input); err != nil {
+			return err
+		}
+		if err := runPart(8, 2, day8.PartTwo, input); err != nil {
 			return err
 		}
 	default:
