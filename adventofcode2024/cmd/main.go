@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"adventofcode2024/internal/day1"
+	"adventofcode2024/internal/day10"
 	"adventofcode2024/internal/day2"
 	"adventofcode2024/internal/day3"
 	"adventofcode2024/internal/day4"
@@ -155,6 +156,13 @@ func runDay(day int) error {
 			return err
 		}
 		if err := runPart(9, 2, day9.PartTwo, input); err != nil {
+			return err
+		}
+	case 10:
+		if err := runPart(10, 1, day10.PartOne, input); err != nil {
+			return err
+		}
+		if err := runPart(10, 2, day10.PartTwo, input); err != nil {
 			return err
 		}
 	default:
